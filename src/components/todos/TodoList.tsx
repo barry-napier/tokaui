@@ -7,8 +7,9 @@ import { Input } from '@/components/ui/input';
 
 interface Todo {
   id: string;
-  task: string;
-  is_complete: boolean;
+  user_id: string;
+  title: string;
+  completed: boolean;
   created_at: string;
 }
 
@@ -72,22 +73,38 @@ export function TodoList() {
         return;
       }
 
-      const { data, error } = await supabase
-        .from('todos')
-        .insert([{ task: newTask.trim() }])
-        .select();
+      // Get the current user session to check if we're authenticated
+      const { data: sessionData } = await supabase.auth.getSession();
+      const session = sessionData?.session;
+
+      // Use the schema format matching the database
+      const todoData: Record<string, string | boolean | null> = {
+        title: newTask.trim(),
+        completed: false,
+        user_id: session?.user?.id || null,
+      };
+
+      console.log('Adding todo with data:', todoData);
+
+      const { data, error } = await supabase.from('todos').insert([todoData]).select();
 
       if (error) {
+        console.error('Supabase error details:', JSON.stringify(error));
         throw error;
       }
 
       if (data) {
         setTodos([...data, ...todos]);
         setNewTask('');
+      } else {
+        console.warn('No data returned from insert operation');
       }
     } catch (error: unknown) {
-      console.error('Error adding todo:', error);
-      setError('Failed to add todo. Please try again.');
+      console.error(
+        'Error adding todo:',
+        error instanceof Error ? error.message : JSON.stringify(error)
+      );
+      setError('Failed to add todo. Please check console for details.');
     } finally {
       setLoading(false);
     }
@@ -105,24 +122,31 @@ export function TodoList() {
 
       const { error } = await supabase
         .from('todos')
-        .update({ is_complete: !currentStatus })
+        .update({ completed: !currentStatus })
         .eq('id', id);
 
       if (error) {
+        console.error('Supabase error details:', JSON.stringify(error));
         throw error;
       }
 
       setTodos(
         todos.map((todo) => {
           if (todo.id === id) {
-            return { ...todo, is_complete: !currentStatus };
+            return {
+              ...todo,
+              completed: !currentStatus,
+            };
           }
           return todo;
         })
       );
     } catch (error: unknown) {
-      console.error('Error updating todo:', error);
-      setError('Failed to update todo. Please try again.');
+      console.error(
+        'Error updating todo:',
+        error instanceof Error ? error.message : JSON.stringify(error)
+      );
+      setError('Failed to update todo. Please check console for details.');
     }
   }
 
@@ -139,13 +163,17 @@ export function TodoList() {
       const { error } = await supabase.from('todos').delete().eq('id', id);
 
       if (error) {
+        console.error('Supabase error details:', JSON.stringify(error));
         throw error;
       }
 
       setTodos(todos.filter((todo) => todo.id !== id));
     } catch (error: unknown) {
-      console.error('Error deleting todo:', error);
-      setError('Failed to delete todo. Please try again.');
+      console.error(
+        'Error deleting todo:',
+        error instanceof Error ? error.message : JSON.stringify(error)
+      );
+      setError('Failed to delete todo. Please check console for details.');
     }
   }
 
@@ -185,14 +213,14 @@ export function TodoList() {
               <div className="flex items-center gap-2">
                 <input
                   type="checkbox"
-                  checked={todo.is_complete}
-                  onChange={() => toggleTodoStatus(todo.id, todo.is_complete)}
+                  checked={todo.completed}
+                  onChange={() => toggleTodoStatus(todo.id, todo.completed)}
                   className="border-zinc-300 text-zinc-900 focus:ring-zinc-500 h-4 w-4 rounded"
                 />
                 <span
-                  className={`${todo.is_complete ? 'text-zinc-500 line-through' : 'text-zinc-900'}`}
+                  className={`${todo.completed ? 'text-zinc-500 line-through' : 'text-zinc-900'}`}
                 >
-                  {todo.task}
+                  {todo.title}
                 </span>
               </div>
               <Button
