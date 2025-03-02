@@ -90,18 +90,18 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 
 ### 0.4: Integrate shadcn Component Library
 
-- [ ] **Task:**
+- [x] **Task:**
   - Install the shadcn component library.
   - Set up a few basic components (e.g., buttons, inputs) using shadcn.
   - Ensure these components reflect our minimal, sleek design.
-- [ ] **Acceptance Criteria:**
+- [x] **Acceptance Criteria:**
   - Basic shadcn components are available and styled per our design guidelines.
   - Components integrate seamlessly with Next.js.
-- [ ] **Developer Checklist:**
-  - [ ] Run application locally.
-  - [ ] Lint for errors.
-  - [ ] Execute E2E tests verifying component rendering.
-  - [ ] Commit changes.
+- [x] **Developer Checklist:**
+  - [x] Run application locally.
+  - [x] Lint for errors.
+  - [x] Execute E2E tests verifying component rendering.
+  - [x] Commit changes.
 
 ### 0.5: Set Up Supabase Integration
 
