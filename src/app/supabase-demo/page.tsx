@@ -1,15 +1,110 @@
 'use client';
 
-import { useState } from 'react';
-import { useSupabaseAuth } from '@/hooks/useSupabaseAuth';
-import { LoginForm } from '@/components/auth/LoginForm';
-import { SignupForm } from '@/components/auth/SignupForm';
-import { TodoList } from '@/components/todos/TodoList';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Session } from '@supabase/supabase-js';
+import { TodoList } from '@/components/todos/TodoList';
 
 export default function SupabaseDemo() {
-  const { user, loading, signOut } = useSupabaseAuth();
-  const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Check if user was redirected after email confirmation
+    const confirmed = searchParams.get('confirmed');
+    if (confirmed === 'true') {
+      setMessage('Email confirmed! You can now sign in.');
+    }
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [searchParams]);
+
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        setMessage(`Error: ${error.message}`);
+      } else {
+        setMessage('Check your email for the confirmation link!');
+      }
+    } catch (error) {
+      setMessage('An unexpected error occurred');
+      console.error('Sign up error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        setMessage(`Error: ${error.message}`);
+      } else {
+        setMessage('Signed in successfully!');
+      }
+    } catch (error) {
+      setMessage('An unexpected error occurred');
+      console.error('Sign in error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSignOut = async () => {
+    setLoading(true);
+
+    try {
+      await supabase.auth.signOut();
+      setMessage('Signed out successfully!');
+    } catch (error) {
+      setMessage('An unexpected error occurred');
+      console.error('Sign out error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="p-8 text-center">Loading...</div>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -26,48 +121,56 @@ export default function SupabaseDemo() {
           <div className="border-zinc-200 rounded-lg border p-6 shadow-sm">
             <h2 className="mb-4 text-xl font-semibold">Authentication</h2>
 
-            {loading ? (
-              <div className="p-8 text-center">
-                <p>Loading...</p>
-              </div>
-            ) : user ? (
-              <div className="space-y-4">
-                <div className="bg-zinc-50 rounded-md p-4">
-                  <p className="font-medium">Logged in as:</p>
-                  <p className="mt-1 break-all text-sm">{user.email}</p>
-                  <p className="text-zinc-500 mt-2 text-xs">User ID: {user.id}</p>
-                </div>
+            {message && <div className="bg-zinc-100 mb-6 rounded-md p-4">{message}</div>}
 
-                <Button onClick={() => signOut()} variant="outline" className="w-full">
-                  Sign Out
-                </Button>
+            {session ? (
+              <div>
+                <p className="mb-4">Logged in as: {session.user.email}</p>
+                <Button onClick={handleSignOut}>Sign Out</Button>
               </div>
             ) : (
-              <div className="space-y-4">
-                <div className="border-zinc-200 flex border-b">
-                  <button
-                    className={`px-4 py-2 text-sm font-medium ${
-                      activeTab === 'login'
-                        ? 'border-zinc-900 text-zinc-900 border-b-2'
-                        : 'text-zinc-500'
-                    }`}
-                    onClick={() => setActiveTab('login')}
-                  >
-                    Login
-                  </button>
-                  <button
-                    className={`px-4 py-2 text-sm font-medium ${
-                      activeTab === 'signup'
-                        ? 'border-zinc-900 text-zinc-900 border-b-2'
-                        : 'text-zinc-500'
-                    }`}
-                    onClick={() => setActiveTab('signup')}
-                  >
+              <div className="space-y-8">
+                <form onSubmit={handleSignUp} className="space-y-4">
+                  <h2 className="text-xl font-semibold">Sign Up</h2>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <Button type="submit" disabled={loading}>
                     Sign Up
-                  </button>
-                </div>
+                  </Button>
+                </form>
 
-                {activeTab === 'login' ? <LoginForm /> : <SignupForm />}
+                <form onSubmit={handleSignIn} className="space-y-4">
+                  <h2 className="text-xl font-semibold">Sign In</h2>
+                  <Input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <Input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <Button type="submit" disabled={loading}>
+                    Sign In
+                  </Button>
+                </form>
               </div>
             )}
           </div>

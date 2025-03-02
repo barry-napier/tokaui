@@ -1,125 +1,179 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useSupabaseAuth } from '@/hooks/useSupabaseAuth';
-import { Todo, fetchTodos, addTodo } from '@/lib/database';
-import { TodoItem } from './TodoItem';
+'use client';
+
+import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
+interface Todo {
+  id: string;
+  task: string;
+  is_complete: boolean;
+  created_at: string;
+}
+
 export function TodoList() {
-  const { user } = useSupabaseAuth();
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [newTodoTitle, setNewTodoTitle] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isAdding, setIsAdding] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [newTask, setNewTask] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Define loadTodos as a useCallback to avoid dependency issues
-  const loadTodos = useCallback(async () => {
-    if (!user) return;
-
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const { success, data, error } = await fetchTodos(user.id);
-
-      if (success && data) {
-        setTodos(data);
-      } else if (error) {
-        console.error('Error loading todos:', error);
-        setError('Failed to load todos');
-      }
-    } catch (err) {
-      console.error('Error in loadTodos:', err);
-      setError('An unexpected error occurred');
-    } finally {
-      setIsLoading(false);
-    }
-  }, [user]);
-
-  // Load todos when user changes
   useEffect(() => {
-    if (user) {
-      loadTodos();
-    } else {
-      setTodos([]);
-    }
-  }, [user, loadTodos]);
+    fetchTodos();
+  }, []);
 
-  const handleAddTodo = async (e: React.FormEvent) => {
+  async function fetchTodos() {
+    try {
+      setLoading(true);
+      setError('');
+
+      const { data, error } = await supabase
+        .from('todos')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        throw error;
+      }
+
+      setTodos(data || []);
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+      setError('Failed to load todos. Please try again later.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function addTodo(e: React.FormEvent) {
     e.preventDefault();
 
-    if (!user || !newTodoTitle.trim()) return;
-
-    setIsAdding(true);
-    setError(null);
+    if (!newTask.trim()) return;
 
     try {
-      const { success, data, error } = await addTodo(user.id, newTodoTitle);
+      setLoading(true);
+      setError('');
 
-      if (success && data) {
-        setTodos((prev) => [data, ...prev]);
-        setNewTodoTitle('');
-      } else if (error) {
-        console.error('Error adding todo:', error);
-        setError('Failed to add todo');
+      const { data, error } = await supabase
+        .from('todos')
+        .insert([{ task: newTask.trim() }])
+        .select();
+
+      if (error) {
+        throw error;
       }
-    } catch (err) {
-      console.error('Error in handleAddTodo:', err);
-      setError('An unexpected error occurred');
-    } finally {
-      setIsAdding(false);
-    }
-  };
 
-  if (!user) {
-    return (
-      <div className="p-8 text-center">
-        <p>Please log in to manage your todos</p>
-      </div>
-    );
+      if (data) {
+        setTodos([...data, ...todos]);
+        setNewTask('');
+      }
+    } catch (error) {
+      console.error('Error adding todo:', error);
+      setError('Failed to add todo. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function toggleTodoStatus(id: string, currentStatus: boolean) {
+    try {
+      setError('');
+
+      const { error } = await supabase
+        .from('todos')
+        .update({ is_complete: !currentStatus })
+        .eq('id', id);
+
+      if (error) {
+        throw error;
+      }
+
+      setTodos(
+        todos.map((todo) => {
+          if (todo.id === id) {
+            return { ...todo, is_complete: !currentStatus };
+          }
+          return todo;
+        })
+      );
+    } catch (error) {
+      console.error('Error updating todo:', error);
+      setError('Failed to update todo. Please try again.');
+    }
+  }
+
+  async function deleteTodo(id: string) {
+    try {
+      setError('');
+
+      const { error } = await supabase.from('todos').delete().eq('id', id);
+
+      if (error) {
+        throw error;
+      }
+
+      setTodos(todos.filter((todo) => todo.id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+      setError('Failed to delete todo. Please try again.');
+    }
   }
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">Your Todos</h1>
-        <p className="text-zinc-500 mt-2 text-sm">Manage your tasks with Supabase and Next.js</p>
-      </div>
+    <div className="space-y-6">
+      <h2 className="text-xl font-semibold">Todo List</h2>
 
-      <form onSubmit={handleAddTodo} className="flex space-x-2">
+      {error && <div className="bg-red-50 text-red-800 rounded-md p-3 text-sm">{error}</div>}
+
+      <form onSubmit={addTodo} className="flex gap-2">
         <Input
-          value={newTodoTitle}
-          onChange={(e) => setNewTodoTitle(e.target.value)}
-          placeholder="Add a new todo..."
-          disabled={isAdding}
+          type="text"
+          placeholder="Add a new task..."
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          disabled={loading}
           className="flex-1"
         />
-        <Button type="submit" disabled={isAdding || !newTodoTitle.trim()}>
-          {isAdding ? 'Adding...' : 'Add'}
+        <Button type="submit" disabled={loading || !newTask.trim()}>
+          Add
         </Button>
       </form>
 
-      {error && (
-        <div className="bg-red-50 border-red-200 text-red-700 rounded border p-3 text-sm">
-          {error}
-        </div>
-      )}
-
-      {isLoading ? (
-        <div className="p-8 text-center">
-          <p>Loading todos...</p>
-        </div>
+      {loading && todos.length === 0 ? (
+        <div className="text-zinc-500 py-4 text-center">Loading todos...</div>
       ) : todos.length === 0 ? (
-        <div className="border-zinc-300 rounded-md border border-dashed p-8 text-center">
-          <p className="text-zinc-500">No todos yet. Add one above!</p>
-        </div>
+        <div className="text-zinc-500 py-4 text-center">No todos yet. Add one above!</div>
       ) : (
-        <div className="space-y-3">
+        <ul className="space-y-2">
           {todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onUpdate={loadTodos} />
+            <li
+              key={todo.id}
+              className="border-zinc-200 flex items-center justify-between gap-2 rounded-md border p-3"
+            >
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={todo.is_complete}
+                  onChange={() => toggleTodoStatus(todo.id, todo.is_complete)}
+                  className="border-zinc-300 text-zinc-900 focus:ring-zinc-500 h-4 w-4 rounded"
+                />
+                <span
+                  className={`${todo.is_complete ? 'text-zinc-500 line-through' : 'text-zinc-900'}`}
+                >
+                  {todo.task}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => deleteTodo(todo.id)}
+                className="h-8 w-8 p-0"
+              >
+                ×
+              </Button>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

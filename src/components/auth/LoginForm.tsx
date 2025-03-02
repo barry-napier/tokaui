@@ -1,80 +1,68 @@
+'use client';
+
 import { useState } from 'react';
 import { useSupabaseAuth } from '@/hooks/useSupabaseAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 export function LoginForm() {
+  const { signIn } = useSupabaseAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const { signIn } = useSupabaseAuth();
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    setError(null);
+    setLoading(true);
+    setMessage('');
+    setError('');
 
-    try {
-      const { success, error } = await signIn(email, password);
+    const result = await signIn(email, password);
 
-      if (!success && error) {
-        setError('Invalid email or password');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-      console.error(err);
-    } finally {
-      setIsLoading(false);
+    if (result.success) {
+      setMessage('Signed in successfully!');
+    } else {
+      setError(result.message || 'Failed to sign in');
     }
+
+    setLoading(false);
   };
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold">Login</h1>
-        <p className="text-zinc-500 mt-2 text-sm">Enter your credentials to access your account</p>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {message && (
+        <div className="bg-green-50 text-green-800 rounded-md p-3 text-sm">{message}</div>
+      )}
+
+      {error && <div className="bg-red-50 text-red-800 rounded-md p-3 text-sm">{error}</div>}
+
+      <div>
+        <Input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          disabled={loading}
+        />
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        {error && (
-          <div className="bg-red-50 border-red-200 text-red-700 rounded border p-3 text-sm">
-            {error}
-          </div>
-        )}
+      <div>
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          disabled={loading}
+        />
+      </div>
 
-        <div className="space-y-2">
-          <label htmlFor="email" className="text-sm font-medium">
-            Email
-          </label>
-          <Input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-            required
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="password" className="text-sm font-medium">
-            Password
-          </label>
-          <Input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="••••••••"
-            required
-          />
-        </div>
-
-        <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? 'Signing in...' : 'Sign in'}
-        </Button>
-      </form>
-    </div>
+      <Button type="submit" disabled={loading} className="w-full">
+        {loading ? 'Signing in...' : 'Sign In'}
+      </Button>
+    </form>
   );
 }

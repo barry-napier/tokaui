@@ -1,6 +1,8 @@
+'use client';
+
 import { useState, useEffect } from 'react';
+import { User, Session, AuthError } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
-import { Session, User } from '@supabase/supabase-js';
 
 export function useSupabaseAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -8,17 +10,18 @@ export function useSupabaseAuth() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get the current session
+    // Get initial session
     const getInitialSession = async () => {
-      setLoading(true);
-
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-
-      setLoading(false);
+      try {
+        setLoading(true);
+        const { data } = await supabase.auth.getSession();
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
+      } catch (error) {
+        console.error('Error getting initial session:', error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getInitialSession();
@@ -32,45 +35,66 @@ export function useSupabaseAuth() {
       setLoading(false);
     });
 
-    // Cleanup subscription on unmount
     return () => {
       subscription.unsubscribe();
     };
   }, []);
 
-  // Sign in with email and password
-  const signIn = async (email: string, password: string) => {
-    try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) throw error;
-      return { success: true };
-    } catch (error) {
-      console.error('Error signing in:', error);
-      return { success: false, error };
-    }
-  };
-
-  // Sign up with email and password
   const signUp = async (email: string, password: string) => {
     try {
-      const { error } = await supabase.auth.signUp({ email, password });
+      setLoading(true);
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
       if (error) throw error;
-      return { success: true };
+      return { success: true, message: 'Check your email for the confirmation link!' };
     } catch (error) {
-      console.error('Error signing up:', error);
-      return { success: false, error };
+      const authError = error as AuthError;
+      return {
+        success: false,
+        message: authError.message || 'An error occurred during sign up',
+      };
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Sign out
+  const signIn = async (email: string, password: string) => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) throw error;
+      return { success: true };
+    } catch (error) {
+      const authError = error as AuthError;
+      return {
+        success: false,
+        message: authError.message || 'An error occurred during sign in',
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      setLoading(true);
+      await supabase.auth.signOut();
       return { success: true };
     } catch (error) {
       console.error('Error signing out:', error);
-      return { success: false, error };
+      return { success: false, message: 'An error occurred during sign out' };
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,8 +102,8 @@ export function useSupabaseAuth() {
     user,
     session,
     loading,
-    signIn,
     signUp,
+    signIn,
     signOut,
   };
 }

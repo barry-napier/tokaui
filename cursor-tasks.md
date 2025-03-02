@@ -106,15 +106,15 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 ### 0.5: Set Up Supabase Integration
 
 - [x] **Task:**
-  - Install the Supabase client library and integrate it into the Next.js project.
-  - Configure environment variables for:
+  - [x] Install the Supabase client library and integrate it into the Next.js project.
+  - [x] Configure environment variables for:
     - `NEXT_PUBLIC_SUPABASE_URL`
     - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-  - Create initial API endpoints for user authentication and basic data persistence.
-  - Verify connectivity by testing a simple Supabase query.
+  - [x] Create initial API endpoints for user authentication and basic data persistence.
+  - [x] Verify connectivity by testing a simple Supabase query.
 - [x] **Acceptance Criteria:**
-  - Supabase is properly integrated and initial endpoints interact with the Supabase backend.
-  - Authentication flows can connect to Supabase to store and retrieve user data.
+  - [x] Supabase is properly integrated and initial endpoints interact with the Supabase backend.
+  - [x] Authentication flows can connect to Supabase to store and retrieve user data.
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.

@@ -42,14 +42,36 @@ For the Todo demo to work, create a `todos` table in your Supabase project with 
 ```sql
 CREATE TABLE todos (
   id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  user_id UUID REFERENCES auth.users NOT NULL,
-  title TEXT NOT NULL,
-  completed BOOLEAN DEFAULT FALSE,
+  task TEXT NOT NULL,
+  is_complete BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Set up Row Level Security
+-- Set up Row Level Security (optional for demo purposes)
 ALTER TABLE todos ENABLE ROW LEVEL SECURITY;
+
+-- Create policy to allow all authenticated users to see all todos (for demo purposes)
+CREATE POLICY "Allow all users to see todos"
+  ON todos FOR SELECT USING (true);
+
+-- Create policy to allow all authenticated users to insert todos (for demo purposes)
+CREATE POLICY "Allow all users to insert todos"
+  ON todos FOR INSERT WITH CHECK (true);
+
+-- Create policy to allow all authenticated users to update todos (for demo purposes)
+CREATE POLICY "Allow all users to update todos"
+  ON todos FOR UPDATE USING (true);
+
+-- Create policy to allow all authenticated users to delete todos (for demo purposes)
+CREATE POLICY "Allow all users to delete todos"
+  ON todos FOR DELETE USING (true);
+```
+
+For a production application, you would typically want to restrict access based on user_id:
+
+```sql
+-- Add a user_id column
+ALTER TABLE todos ADD COLUMN user_id UUID REFERENCES auth.users;
 
 -- Create policy for users to only see their own todos
 CREATE POLICY "Users can only see their own todos"
