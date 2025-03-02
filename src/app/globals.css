@@ -19,7 +19,7 @@
   --color-gray-950: #0d0d0d;
 
   /* Typography */
-  --font-sans: "Inter", "Helvetica", "Arial", sans-serif;
+  --font-sans: 'Inter', 'Helvetica', 'Arial', sans-serif;
 
   /* Spacing */
   --spacing-0: 0;

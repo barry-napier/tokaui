@@ -20,6 +20,38 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Code Formatting
+
+This project uses Prettier for code formatting with the tailwind-prettier-plugin to ensure consistent formatting of Tailwind CSS classes.
+
+### Configuration
+
+The Prettier configuration is defined in `.prettierrc` with the following key settings:
+
+- Single quotes for strings
+- Semicolons at the end of statements
+- 2 spaces for indentation
+- 100 character line width
+- Automatic sorting of Tailwind CSS classes
+
+### Usage
+
+Format all files:
+
+```bash
+npm run format
+```
+
+Check if files are formatted correctly:
+
+```bash
+npm run format:check
+```
+
+### VS Code Integration
+
+For VS Code users, we recommend installing the Prettier extension and enabling "Format on Save" for the best development experience.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
