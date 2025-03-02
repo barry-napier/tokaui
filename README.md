@@ -20,6 +20,62 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Supabase Integration
+
+This project includes integration with [Supabase](https://supabase.com) for authentication and database operations.
+
+### Setup
+
+1. Create a Supabase project at [supabase.com](https://supabase.com)
+2. Copy your Supabase URL and anon key from the project settings
+3. Create a `.env.local` file in the root of the project with the following variables:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
+
+### Database Schema
+
+For the Todo demo to work, create a `todos` table in your Supabase project with the following SQL:
+
+```sql
+CREATE TABLE todos (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  user_id UUID REFERENCES auth.users NOT NULL,
+  title TEXT NOT NULL,
+  completed BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Set up Row Level Security
+ALTER TABLE todos ENABLE ROW LEVEL SECURITY;
+
+-- Create policy for users to only see their own todos
+CREATE POLICY "Users can only see their own todos"
+  ON todos FOR SELECT USING (auth.uid() = user_id);
+
+-- Create policy for users to insert their own todos
+CREATE POLICY "Users can insert their own todos"
+  ON todos FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+-- Create policy for users to update their own todos
+CREATE POLICY "Users can update their own todos"
+  ON todos FOR UPDATE USING (auth.uid() = user_id);
+
+-- Create policy for users to delete their own todos
+CREATE POLICY "Users can delete their own todos"
+  ON todos FOR DELETE USING (auth.uid() = user_id);
+```
+
+### Demo
+
+Visit `/supabase-demo` to see the Supabase integration in action, featuring:
+
+- User authentication (sign up, login, logout)
+- Todo CRUD operations with row-level security
+- Real-time data synchronization
+
 ## Code Formatting
 
 This project uses Prettier for code formatting with the tailwind-prettier-plugin to ensure consistent formatting of Tailwind CSS classes.
