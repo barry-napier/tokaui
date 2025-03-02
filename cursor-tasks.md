@@ -58,20 +58,20 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 
 ### 0.2: Configure Tailwind CSS and Custom Theme
 
-- [ ] **Task:**
+- [x] **Task:**
   - Install and configure Tailwind CSS in the Next.js project.
   - Create a custom Tailwind configuration that enforces our black-and-white minimal design:
     - Define custom colors (black, white, gray tones) as required.
     - Disable any default color palettes that conflict with our design.
   - Create a sample page that demonstrates Tailwind classes and the custom theme.
-- [ ] **Acceptance Criteria:**
+- [x] **Acceptance Criteria:**
   - Tailwind CSS is fully integrated with the custom theme applied.
   - The sample page renders with the correct black-and-white aesthetic.
-- [ ] **Developer Checklist:**
-  - [ ] Run application locally.
-  - [ ] Lint for errors.
-  - [ ] Run E2E test for sample page.
-  - [ ] Commit changes.
+- [x] **Developer Checklist:**
+  - [x] Run application locally.
+  - [x] Lint for errors.
+  - [x] Run E2E test for sample page.
+  - [x] Commit changes.
 
 ### 0.3: Integrate Prettier and tailwind-prettier-plugin
 
