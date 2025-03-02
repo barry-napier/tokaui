@@ -17,6 +17,7 @@ export function TodoList() {
   const [newTask, setNewTask] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [tableExists, setTableExists] = useState(true);
 
   useEffect(() => {
     fetchTodos();
@@ -33,13 +34,24 @@ export function TodoList() {
         .order('created_at', { ascending: false });
 
       if (error) {
-        throw error;
+        // Check if the error is related to the table not existing
+        if (error.code === '42P01' || error.message.includes('does not exist')) {
+          setTableExists(false);
+          setError(
+            'The todos table does not exist in your Supabase database. Please create it using the SQL in the README.'
+          );
+        } else {
+          throw error;
+        }
+      } else {
+        setTodos(data || []);
+        setTableExists(true);
       }
-
-      setTodos(data || []);
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error fetching todos:', error);
-      setError('Failed to load todos. Please try again later.');
+      setError(
+        'Failed to load todos. Please check your Supabase configuration and ensure the todos table exists.'
+      );
     } finally {
       setLoading(false);
     }
@@ -54,6 +66,12 @@ export function TodoList() {
       setLoading(true);
       setError('');
 
+      // Don't attempt to add a todo if the table doesn't exist
+      if (!tableExists) {
+        setError('Cannot add todo: The todos table does not exist in your Supabase database.');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('todos')
         .insert([{ task: newTask.trim() }])
@@ -67,7 +85,7 @@ export function TodoList() {
         setTodos([...data, ...todos]);
         setNewTask('');
       }
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error adding todo:', error);
       setError('Failed to add todo. Please try again.');
     } finally {
@@ -78,6 +96,12 @@ export function TodoList() {
   async function toggleTodoStatus(id: string, currentStatus: boolean) {
     try {
       setError('');
+
+      // Don't attempt to update if the table doesn't exist
+      if (!tableExists) {
+        setError('Cannot update todo: The todos table does not exist in your Supabase database.');
+        return;
+      }
 
       const { error } = await supabase
         .from('todos')
@@ -96,7 +120,7 @@ export function TodoList() {
           return todo;
         })
       );
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error updating todo:', error);
       setError('Failed to update todo. Please try again.');
     }
@@ -106,6 +130,12 @@ export function TodoList() {
     try {
       setError('');
 
+      // Don't attempt to delete if the table doesn't exist
+      if (!tableExists) {
+        setError('Cannot delete todo: The todos table does not exist in your Supabase database.');
+        return;
+      }
+
       const { error } = await supabase.from('todos').delete().eq('id', id);
 
       if (error) {
@@ -113,7 +143,7 @@ export function TodoList() {
       }
 
       setTodos(todos.filter((todo) => todo.id !== id));
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('Error deleting todo:', error);
       setError('Failed to delete todo. Please try again.');
     }
@@ -131,18 +161,20 @@ export function TodoList() {
           placeholder="Add a new task..."
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
-          disabled={loading}
+          disabled={loading || !tableExists}
           className="flex-1"
         />
-        <Button type="submit" disabled={loading || !newTask.trim()}>
+        <Button type="submit" disabled={loading || !newTask.trim() || !tableExists}>
           Add
         </Button>
       </form>
 
       {loading && todos.length === 0 ? (
-        <div className="text-zinc-500 py-4 text-center">Loading todos...</div>
-      ) : todos.length === 0 ? (
-        <div className="text-zinc-500 py-4 text-center">No todos yet. Add one above!</div>
+        <div className="text-zinc-500 py-4 text-center">Loading...</div>
+      ) : todos.length === 0 && !error ? (
+        <div className="text-zinc-500 py-4 text-center">
+          {tableExists ? 'No todos yet. Add one above!' : 'Create the todos table to get started.'}
+        </div>
       ) : (
         <ul className="space-y-2">
           {todos.map((todo) => (
