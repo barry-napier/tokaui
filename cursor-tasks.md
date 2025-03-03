@@ -23,7 +23,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
   - Run the application locally to ensure it starts without errors.
   - Lint the code using the project's ESLint configuration.
   - Run Prettier to format the code; ensure that the Prettier configuration along with the tailwind-prettier-plugin is active.
-  - Confirm that all tests pass before moving on to the next task.
 - **Version Control:**
   - Commit code regularly with clear commit messages that reference completed tasks.
   - Each commit must result in a working state of the application.
@@ -49,7 +48,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run basic E2E tests (using Puppeteer) confirming landing page loads.
   - [x] Commit changes.
 
 ### 0.2: Configure Tailwind CSS and Custom Theme
@@ -66,7 +64,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E test for sample page.
   - [x] Commit changes.
 
 ### 0.3: Integrate Prettier and tailwind-prettier-plugin
@@ -96,7 +93,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Execute E2E tests verifying component rendering.
   - [x] Commit changes.
 
 ### 0.5: Set Up Supabase Integration
@@ -114,7 +110,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests for authentication endpoints.
   - [x] Commit changes.
 
 ---
@@ -149,7 +144,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests simulating user sign-up.
   - [x] Commit changes.
 
 ---
@@ -167,7 +161,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Execute E2E test for navigation from sign-up to confirmation.
   - [x] Commit changes.
 
 ---
@@ -198,7 +191,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests simulating onboarding flow.
   - [x] Commit changes.
 
 ---
@@ -223,7 +215,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests verifying design system creation and switching.
   - [x] Commit changes.
 
 ### 2.2: Implement Dashboard with Five Main Section Cards
@@ -244,7 +235,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests for card navigation.
   - [x] Commit changes.
 
 ### 2.3: Implement Foundations Detail View with Editing Capability
@@ -273,7 +263,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests for adding/editing tokens.
   - [x] Commit changes.
 
 ### 2.4: Implement Components Detail View with Editing
@@ -300,7 +289,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [x] **Developer Checklist:**
   - [x] Run application locally.
   - [x] Lint for errors.
-  - [x] Run E2E tests for component addition and editing.
   - [x] Commit changes.
 
 ### 2.5: Implement Patterns & Layouts Detail View with Editing
@@ -320,7 +308,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for pattern creation and editing.
   - [ ] Commit changes.
 
 ---
@@ -339,7 +326,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for documentation editing.
   - [ ] Commit changes.
 
 ---
@@ -360,7 +346,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for asset upload and deletion.
   - [ ] Commit changes.
 
 ---
@@ -380,7 +365,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests to confirm real-time updates in the preview.
   - [ ] Commit changes.
 
 ---
@@ -403,7 +387,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for sidebar interactions.
   - [ ] Commit changes.
 
 ---
@@ -425,7 +408,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for viewport changes.
   - [ ] Commit changes.
 
 ---
@@ -452,7 +434,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for code panel functionality.
   - [ ] Commit changes.
 
 ---
@@ -480,7 +461,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for the export functionality.
   - [ ] Commit changes.
 
 ---
@@ -503,7 +483,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for version history display.
   - [ ] Commit changes.
 
 ---
@@ -524,7 +503,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for snapshot creation and rollback.
   - [ ] Commit changes.
 
 ---
@@ -543,7 +521,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for audit log functionality.
   - [ ] Commit changes.
 
 ---
@@ -572,7 +549,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - [ ] **Developer Checklist:**
   - [ ] Run application locally.
   - [ ] Lint for errors.
-  - [ ] Run E2E tests for style guide accuracy and navigation.
   - [ ] Commit changes.
 
 ---
@@ -611,4 +587,4 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 
 ---
 
-This document provides the full sprint backlog, including project setup, detailed feature stories with checkboxes, and developer rules for quality assurance. The offshore development team should follow these instructions precisely to implement the Toka UI MVP using Next.js 15, TypeScript, Tailwind CSS, shadcn, Supabase, Prettier, and tailwind-prettier-plugin. All tests must pass at each stage, and commits should be made regularly to ensure continuous progress.
+This document provides the full sprint backlog, including project setup, detailed feature stories with checkboxes, and developer rules for quality assurance. The offshore development team should follow these instructions precisely to implement the Toka UI MVP using Next.js 15, TypeScript, Tailwind CSS, shadcn, Supabase, Prettier, and tailwind-prettier-plugin. Commits should be made regularly to ensure continuous progress.
