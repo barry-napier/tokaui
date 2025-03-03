@@ -1,23 +1,55 @@
-import { DesignSystemsList } from '@/components/dashboard/design-systems-list';
-import { DashboardSections } from '@/components/dashboard/dashboard-sections';
+import { Palette, Puzzle, LayoutGrid, FileText, Image } from 'lucide-react';
+import { SectionCard } from '@/components/dashboard/section-card';
+import { Metadata } from 'next';
 
-export const metadata = {
-  title: 'Dashboard - Toka UI',
-  description: 'Manage your design systems',
+export const metadata: Metadata = {
+  title: 'Dashboard | Toka',
+  description: 'Manage your design system components and settings',
 };
 
 export default function DashboardPage() {
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-zinc-600 mt-2">Manage your design systems and their components</p>
-      </div>
+  const sections = [
+    {
+      title: 'Foundations',
+      icon: Palette,
+      href: '/dashboard/foundations',
+    },
+    {
+      title: 'Components',
+      icon: Puzzle,
+      href: '/dashboard/components',
+    },
+    {
+      title: 'Patterns & Layouts',
+      icon: LayoutGrid,
+      href: '/dashboard/patterns',
+    },
+    {
+      title: 'Documentation & Guidelines',
+      icon: FileText,
+      href: '/dashboard/documentation',
+    },
+    {
+      title: 'Assets',
+      icon: Image,
+      href: '/dashboard/assets',
+    },
+  ];
 
-      <div className="space-y-12">
-        <DesignSystemsList />
-        <DashboardSections />
+  return (
+    <main className="container mx-auto px-4 py-8">
+      <h1 className="mb-8 text-3xl font-bold text-white">Dashboard</h1>
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {sections.map((section) => (
+          <SectionCard
+            key={section.title}
+            title={section.title}
+            icon={section.icon}
+            href={section.href}
+          />
+        ))}
       </div>
-    </div>
+    </main>
   );
 }
