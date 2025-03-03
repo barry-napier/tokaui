@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { DocumentationList } from '@/components/documentation/documentation-list';
 import { DocumentationSearch } from '@/components/documentation/documentation-search';
+import { DocumentationCategories } from '@/components/documentation/documentation-categories';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const metadata: Metadata = {
@@ -57,12 +58,18 @@ export default function DocumentationPage({ params }: DocumentationPageProps) {
           <TabsTrigger value="all" className="data-[state=active]:bg-black">
             All Documents
           </TabsTrigger>
+          <TabsTrigger value="categories" className="data-[state=active]:bg-black">
+            Categories
+          </TabsTrigger>
           <TabsTrigger value="search" className="data-[state=active]:bg-black">
             Search
           </TabsTrigger>
         </TabsList>
         <TabsContent value="all" className="mt-6">
           <DocumentationList designSystemId={designSystemId} />
+        </TabsContent>
+        <TabsContent value="categories" className="mt-6">
+          <DocumentationCategories designSystemId={designSystemId} />
         </TabsContent>
         <TabsContent value="search" className="mt-6">
           <DocumentationSearch designSystemId={designSystemId} docPages={docPages} />
