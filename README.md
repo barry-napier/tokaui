@@ -37,7 +37,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
 ### Database Schema
 
-For the Todo demo to work, create a `todos` table in your Supabase project with the following SQL:
+For the Todo functionality to work, create a `todos` table in your Supabase project with the following SQL:
 
 ```sql
 CREATE TABLE todos (
@@ -89,14 +89,6 @@ CREATE POLICY "Users can update their own todos"
 CREATE POLICY "Users can delete their own todos"
   ON todos FOR DELETE USING (auth.uid() = user_id);
 ```
-
-### Demo
-
-Visit `/supabase-demo` to see the Supabase integration in action, featuring:
-
-- User authentication (sign up, login, logout)
-- Todo CRUD operations with row-level security
-- Real-time data synchronization
 
 ## Code Formatting
 
