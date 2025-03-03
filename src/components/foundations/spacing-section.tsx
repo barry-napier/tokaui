@@ -27,10 +27,12 @@ export function SpacingSection({ spacingValues, onUpdateSpacing }: SpacingSectio
                 value={spacing.value}
                 onChange={(e) => onUpdateSpacing(index, e.target.value)}
                 placeholder="e.g., 1rem, 16px"
+                aria-label={spacing.name}
               />
               <div
                 className="h-8 rounded border border-gray-200 bg-gray-50"
                 style={{ width: spacing.value }}
+                aria-hidden="true"
               />
             </div>
           </div>

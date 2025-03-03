@@ -34,6 +34,7 @@ export function ColorSwatch({ name, hex, onDelete, onUpdate }: ColorSwatchProps)
             onChange={(e) => setColorName(e.target.value)}
             placeholder="Color name"
             className="w-full"
+            aria-label="Color name"
           />
           <Input
             value={hexValue}
@@ -42,6 +43,7 @@ export function ColorSwatch({ name, hex, onDelete, onUpdate }: ColorSwatchProps)
             pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
             title="Valid hex color code (e.g., #FF0000)"
             className="w-full font-mono"
+            aria-label="Hex code"
           />
           <div className="flex gap-2">
             <Button type="submit" size="sm">

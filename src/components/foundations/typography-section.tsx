@@ -43,7 +43,7 @@ function TypographyStyleEditor({ style, onUpdate }: TypographyStyleProps) {
               value={currentStyle.fontFamily}
               onValueChange={(value) => setCurrentStyle({ ...currentStyle, fontFamily: value })}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-label="Font family">
                 <SelectValue placeholder="Select font family" />
               </SelectTrigger>
               <SelectContent>
@@ -61,6 +61,7 @@ function TypographyStyleEditor({ style, onUpdate }: TypographyStyleProps) {
               value={currentStyle.fontSize}
               onChange={(e) => setCurrentStyle({ ...currentStyle, fontSize: e.target.value })}
               placeholder="e.g., 16px, 1.25rem"
+              aria-label="Font size"
             />
           </div>
 
@@ -70,7 +71,7 @@ function TypographyStyleEditor({ style, onUpdate }: TypographyStyleProps) {
               value={currentStyle.fontWeight}
               onValueChange={(value) => setCurrentStyle({ ...currentStyle, fontWeight: value })}
             >
-              <SelectTrigger>
+              <SelectTrigger aria-label="Font weight">
                 <SelectValue placeholder="Select font weight" />
               </SelectTrigger>
               <SelectContent>
