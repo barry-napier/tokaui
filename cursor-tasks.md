@@ -23,7 +23,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
   - Run the application locally to ensure it starts without errors.
   - Lint the code using the project's ESLint configuration.
   - Run Prettier to format the code; ensure that the Prettier configuration along with the tailwind-prettier-plugin is active.
-  - Execute end-to-end tests using an E2E framework (e.g., Puppeteer) to validate task functionality.
   - Confirm that all tests pass before moving on to the next task.
 - **Version Control:**
   - Commit code regularly with clear commit messages that reference completed tasks.
