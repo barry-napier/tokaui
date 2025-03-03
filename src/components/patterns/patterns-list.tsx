@@ -75,8 +75,11 @@ export function PatternsList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Your Patterns</h2>
-        <Button onClick={() => setIsAddDialogOpen(true)}>
+        <h2 className="text-2xl font-bold text-white">Your Patterns</h2>
+        <Button
+          onClick={() => setIsAddDialogOpen(true)}
+          className="bg-white text-black hover:bg-gray-200"
+        >
           <Plus className="mr-2 h-4 w-4" />
           Add Pattern
         </Button>
@@ -86,12 +89,12 @@ export function PatternsList() {
         {patterns.map((pattern) => (
           <Card
             key={pattern.id}
-            className="cursor-pointer transition-all hover:shadow-md"
+            className="cursor-pointer border-gray-800 bg-black transition-all hover:border-gray-700 hover:bg-gray-900"
             onClick={() => router.push(`/patterns/${pattern.id}`)}
           >
             <CardHeader>
-              <CardTitle className="text-xl">{pattern.name}</CardTitle>
-              <p className="text-sm text-gray-500">{pattern.type}</p>
+              <CardTitle className="text-xl text-white">{pattern.name}</CardTitle>
+              <p className="text-sm text-gray-400">{pattern.type}</p>
             </CardHeader>
             <CardContent>
               {pattern.thumbnail ? (
@@ -101,8 +104,8 @@ export function PatternsList() {
                   className="h-40 w-full rounded-md object-cover"
                 />
               ) : (
-                <div className="flex h-40 items-center justify-center rounded-md bg-gray-100">
-                  <p className="text-gray-500">No preview available</p>
+                <div className="flex h-40 items-center justify-center rounded-md border border-gray-800 bg-gray-900">
+                  <p className="text-gray-400">No preview available</p>
                 </div>
               )}
             </CardContent>
@@ -111,37 +114,49 @@ export function PatternsList() {
       </div>
 
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent>
+        <DialogContent className="border-gray-800 bg-gray-900">
           <DialogHeader>
-            <DialogTitle>Create New Pattern</DialogTitle>
+            <DialogTitle className="text-white">Create New Pattern</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Pattern Name</Label>
+              <Label htmlFor="name" className="text-gray-300">
+                Pattern Name
+              </Label>
               <Input
                 id="name"
                 value={newPatternName}
                 onChange={(e) => setNewPatternName(e.target.value)}
                 placeholder="e.g., Sign-Up Form"
+                className="border-gray-700 bg-gray-800 text-white"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="type">Pattern Type</Label>
+              <Label htmlFor="type" className="text-gray-300">
+                Pattern Type
+              </Label>
               <Input
                 id="type"
                 value={newPatternType}
                 onChange={(e) => setNewPatternType(e.target.value)}
                 placeholder="e.g., Form Layout"
+                className="border-gray-700 bg-gray-800 text-white"
               />
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddDialogOpen(false)} disabled={loading}>
+            <Button
+              variant="outline"
+              onClick={() => setIsAddDialogOpen(false)}
+              disabled={loading}
+              className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
+            >
               Cancel
             </Button>
             <Button
               onClick={handleCreatePattern}
               disabled={loading || !newPatternName || !newPatternType}
+              className="bg-white text-black hover:bg-gray-200"
             >
               {loading ? 'Creating...' : 'Create Pattern'}
             </Button>

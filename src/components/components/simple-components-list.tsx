@@ -13,6 +13,10 @@ interface Component {
   thumbnail?: string;
 }
 
+interface SimpleComponentsListProps {
+  designSystemId: string;
+}
+
 const initialComponents: Component[] = [
   {
     id: '1',
@@ -34,7 +38,7 @@ const initialComponents: Component[] = [
   },
 ];
 
-export function SimpleComponentsList() {
+export function SimpleComponentsList({ designSystemId }: SimpleComponentsListProps) {
   const [components] = useState(initialComponents);
 
   return (
@@ -49,7 +53,10 @@ export function SimpleComponentsList() {
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {components.map((component) => (
-          <Card key={component.id} className="overflow-hidden border-gray-800 bg-black">
+          <Card
+            key={component.id}
+            className="hover:border-blue-500 hover:shadow-blue-500/10 overflow-hidden border-gray-800 bg-black hover:shadow-md"
+          >
             <CardHeader className="pb-2">
               <CardTitle className="text-white">{component.name}</CardTitle>
             </CardHeader>
@@ -72,7 +79,9 @@ export function SimpleComponentsList() {
                 className="w-full border-gray-800 text-white hover:bg-gray-800"
                 asChild
               >
-                <Link href={`/component-editor?id=${component.id}`}>Edit Component</Link>
+                <Link href={`/dashboard/${designSystemId}/components/${component.id}`}>
+                  Edit Component
+                </Link>
               </Button>
             </CardFooter>
           </Card>
