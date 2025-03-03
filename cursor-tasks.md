@@ -293,24 +293,22 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 
 ### 2.5: Implement Patterns & Layouts Detail View with Editing
 
-- [ ] **UI Details:**
-  - [ ] Display a grid or list of design patterns (e.g., "Sign-Up Form Layout") with:
+- [x] **UI Details:**
+  - [x] Display a grid or list of design patterns (e.g., "Sign-Up Form Layout") with:
     - Title
     - Placeholder thumbnail
-  - [ ] "Add Pattern" button opens a form to create a new pattern.
-  - [ ] On selecting a pattern, navigate to an **Edit View** that includes:
+  - [x] "Add Pattern" button opens a form to create a new pattern.
+  - [x] On selecting a pattern, navigate to an **Edit View** that includes:
     - A Live Preview of the pattern.
     - (Optional for MVP) A simple text-based interface for configuring the layout.
-- [ ] **Functionality:**
-  - [ ] Save pattern data to the design system.
-- [ ] **Acceptance Criteria:**
+- [x] **Functionality:**
+  - [x] Save pattern data to the design system.
+- [x] **Acceptance Criteria:**
   - Patterns can be created and edited with proper navigation between list and detail views.
-- [ ] **Developer Checklist:**
-  - [ ] Run application locally.
-  - [ ] Lint for errors.
-  - [ ] Commit changes.
-
----
+- [x] **Developer Checklist:**
+  - [x] Run application locally.
+  - [x] Lint for errors.
+  - [x] Commit changes.
 
 ### 2.6: Implement Documentation & Guidelines (Docs) Detail View
 
