@@ -1,83 +1,82 @@
-import Image from 'next/image';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ChevronDown } from 'lucide-react';
+import { MobileMenu } from '@/components/mobile-menu';
+import { Logo } from '@/components/logo';
 
 export default function Home() {
   return (
-    <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-[family-name:var(--font-geist-sans)] sm:p-20">
-      <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-center font-[family-name:var(--font-geist-mono)] text-sm sm:text-left">
-          <li className="mb-2">
-            Get started by editing{' '}
-            <code className="rounded bg-black/[.05] px-1 py-0.5 font-semibold dark:bg-white/[.06]">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-black text-white">
+      {/* Header */}
+      <header className="fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-4 lg:px-12">
+        {/* Logo */}
+        <Link href="/" className="flex items-center space-x-2">
+          <Logo className="h-8 w-8" />
+          <span className="text-xl font-[900]">TOKA</span>
+        </Link>
 
-        <div className="flex flex-col items-center gap-4 sm:flex-row">
-          <a
-            className="flex h-10 items-center justify-center gap-2 rounded-full border border-solid border-transparent bg-foreground px-4 text-sm text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] sm:h-12 sm:px-5 sm:text-base"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="flex h-10 items-center justify-center rounded-full border border-solid border-black/[.08] px-4 text-sm transition-colors hover:border-transparent hover:bg-[#f2f2f2] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] sm:h-12 sm:min-w-44 sm:px-5 sm:text-base"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+        {/* Navigation - Desktop */}
+        <nav className="hidden items-center space-x-8 md:flex">
+          <Link href="/features" className="transition-colors hover:text-gray-300">
+            Features
+          </Link>
+          <Link href="/how-it-works" className="transition-colors hover:text-gray-300">
+            How It Works
+          </Link>
+          <Link href="/pricing" className="transition-colors hover:text-gray-300">
+            Pricing
+          </Link>
+        </nav>
+
+        {/* Auth Buttons - Desktop */}
+        <div className="hidden items-center space-x-4 md:flex">
+          <Link href="/auth/login">
+            <Button variant="ghost" className="text-white hover:text-gray-300">
+              Log In
+            </Button>
+          </Link>
+          <Link href="/auth/signup">
+            <Button className="bg-white text-black hover:bg-gray-200">Sign Up</Button>
+          </Link>
+        </div>
+
+        {/* Mobile Menu */}
+        <MobileMenu />
+      </header>
+
+      {/* Hero Section */}
+      <main className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
+        <Logo className="mb-8 h-24 w-24" />
+        <h1 className="mb-4 text-6xl font-[900] md:text-8xl">TOKA</h1>
+        <h2 className="mb-6 text-4xl md:text-5xl">
+          <span>Design Systems</span> <span className="font-light">Made Simple</span>
+        </h2>
+        <p className="mb-12 max-w-2xl text-lg text-gray-300 md:text-xl">
+          Bridge the designer-developer gap with one unified tool. Toka simplifies the creation and
+          management of design systems for both designers and developers.
+        </p>
+        <div className="mb-16 flex flex-col gap-4 md:flex-row">
+          <Link href="/auth/signup">
+            <Button size="lg" className="min-w-[200px] bg-white text-black hover:bg-gray-200">
+              Get Started
+            </Button>
+          </Link>
+          <Link href="/demo">
+            <Button
+              size="lg"
+              variant="outline"
+              className="min-w-[200px] border-white text-white hover:bg-white/10"
+            >
+              See Demo
+            </Button>
+          </Link>
+        </div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 animate-bounce">
+          <ChevronDown className="h-6 w-6 text-gray-400" />
         </div>
       </main>
-      <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/window.svg" alt="Window icon" width={16} height={16} />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
