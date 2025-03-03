@@ -8,20 +8,20 @@ export const metadata = {
 
 export default function LoginPage() {
   return (
-    <div className="bg-zinc-50 flex min-h-screen">
+    <div className="flex min-h-screen bg-black">
       <div className="mx-auto flex w-full max-w-md flex-col justify-center px-4 py-12">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold">Welcome back</h1>
-          <p className="text-zinc-600 mt-2">Log in to continue to your design system</p>
+          <h1 className="text-3xl font-bold text-white">Welcome back</h1>
+          <p className="mt-2 text-gray-400">Log in to continue to your design system</p>
         </div>
 
-        <div className="rounded-lg border bg-white p-8 shadow-sm">
+        <div className="rounded-lg border border-gray-800 bg-black p-8">
           <LoginForm />
 
           <div className="mt-8 text-center text-sm">
-            <p className="text-zinc-600">
+            <p className="text-gray-400">
               Don&apos;t have an account?{' '}
-              <Link href="/auth/signup" className="font-medium text-black hover:underline">
+              <Link href="/auth/signup" className="font-medium text-white hover:underline">
                 Sign up
               </Link>
             </p>
@@ -29,7 +29,7 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-8 text-center">
-          <Link href="/" className="text-zinc-600 text-sm hover:underline">
+          <Link href="/" className="text-sm text-gray-500 hover:text-gray-300">
             ← Back to home
           </Link>
         </div>

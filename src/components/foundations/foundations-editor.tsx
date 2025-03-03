@@ -92,8 +92,12 @@ export function FoundationsEditor() {
       {/* Colors Section */}
       <section className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-gray-900">Colors</h2>
-          <Button onClick={handleAddColor} size="sm">
+          <h2 className="text-xl font-semibold text-white">Colors</h2>
+          <Button
+            onClick={handleAddColor}
+            size="sm"
+            className="bg-white text-black hover:bg-gray-200"
+          >
             <PlusIcon className="mr-2 h-4 w-4" />
             Add Color
           </Button>

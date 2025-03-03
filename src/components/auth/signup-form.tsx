@@ -87,19 +87,21 @@ export function SignupForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       {message && (
-        <Alert variant="default" className="bg-green-50 text-green-800 border-green-200">
+        <Alert variant="default" className="border-green-800 bg-green-950/50 text-green-400">
           <AlertDescription>{message}</AlertDescription>
         </Alert>
       )}
 
       {error && (
-        <Alert variant="destructive" className="bg-red-50 text-red-800 border-red-200">
+        <Alert variant="destructive" className="border-red-800 bg-red-950/50 text-red-400">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name" className="text-gray-300">
+          Name
+        </Label>
         <Input
           id="name"
           type="text"
@@ -109,7 +111,7 @@ export function SignupForm() {
           disabled={loading}
           aria-invalid={!!errors.name}
           aria-describedby={errors.name ? 'name-error' : undefined}
-          className={errors.name ? 'border-red-500' : ''}
+          className={`border-gray-800 bg-black text-white focus:border-gray-600 ${errors.name ? 'border-red-500' : ''}`}
         />
         {errors.name && (
           <p id="name-error" className="text-red-500 mt-1 text-xs">
@@ -119,7 +121,9 @@ export function SignupForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="email">Email</Label>
+        <Label htmlFor="email" className="text-gray-300">
+          Email
+        </Label>
         <Input
           id="email"
           type="email"
@@ -129,7 +133,7 @@ export function SignupForm() {
           disabled={loading}
           aria-invalid={!!errors.email}
           aria-describedby={errors.email ? 'email-error' : undefined}
-          className={errors.email ? 'border-red-500' : ''}
+          className={`border-gray-800 bg-black text-white focus:border-gray-600 ${errors.email ? 'border-red-500' : ''}`}
         />
         {errors.email && (
           <p id="email-error" className="text-red-500 mt-1 text-xs">
@@ -139,7 +143,9 @@ export function SignupForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="password" className="text-gray-300">
+          Password
+        </Label>
         <div className="relative">
           <Input
             id="password"
@@ -150,12 +156,12 @@ export function SignupForm() {
             disabled={loading}
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
-            className={errors.password ? 'border-red-500 pr-10' : 'pr-10'}
+            className={`border-gray-800 bg-black pr-10 text-white focus:border-gray-600 ${errors.password ? 'border-red-500' : ''}`}
           />
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="text-zinc-500 absolute right-3 top-1/2 -translate-y-1/2 transform"
+            className="absolute right-3 top-1/2 -translate-y-1/2 transform text-gray-500"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
             {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -166,11 +172,15 @@ export function SignupForm() {
             {errors.password}
           </p>
         ) : (
-          <p className="text-zinc-500 mt-1 text-xs">Password must be at least 6 characters</p>
+          <p className="mt-1 text-xs text-gray-500">Password must be at least 6 characters</p>
         )}
       </div>
 
-      <Button type="submit" disabled={loading} className="mt-6 w-full">
+      <Button
+        type="submit"
+        disabled={loading}
+        className="mt-6 w-full bg-white text-black hover:bg-gray-200"
+      >
         {loading ? 'Creating account...' : 'Sign Up'}
       </Button>
     </form>

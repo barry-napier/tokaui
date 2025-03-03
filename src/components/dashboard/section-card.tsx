@@ -11,10 +11,10 @@ export function SectionCard({ title, icon: Icon, href }: SectionCardProps) {
   return (
     <Link
       href={href}
-      className="group relative flex flex-col items-center justify-center rounded-lg border border-gray-200 bg-white p-6 transition-all hover:border-gray-300 hover:shadow-sm"
+      className="group relative flex flex-col items-center justify-center rounded-lg border border-gray-800 bg-black p-6 transition-all hover:border-gray-700 hover:bg-gray-900"
     >
-      <Icon className="mb-3 h-8 w-8 text-gray-700 group-hover:text-gray-900" />
-      <h3 className="text-lg font-medium text-gray-900">{title}</h3>
+      <Icon className="mb-3 h-8 w-8 text-gray-300 group-hover:text-white" />
+      <h3 className="text-lg font-medium text-white">{title}</h3>
     </Link>
   );
 }

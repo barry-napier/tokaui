@@ -24,7 +24,7 @@ export function ColorSwatch({ name, hex, onDelete, onUpdate }: ColorSwatchProps)
   };
 
   return (
-    <div className="group relative rounded-lg border border-gray-200 bg-white p-4">
+    <div className="group relative rounded-lg border border-gray-800 bg-black p-4">
       <div className="mb-3 h-24 w-full rounded-md" style={{ backgroundColor: hex }} />
 
       {isEditing ? (
@@ -33,7 +33,7 @@ export function ColorSwatch({ name, hex, onDelete, onUpdate }: ColorSwatchProps)
             value={colorName}
             onChange={(e) => setColorName(e.target.value)}
             placeholder="Color name"
-            className="w-full"
+            className="w-full border-gray-800 bg-black text-white focus:border-gray-600"
             aria-label="Color name"
           />
           <Input
@@ -42,17 +42,18 @@ export function ColorSwatch({ name, hex, onDelete, onUpdate }: ColorSwatchProps)
             placeholder="Hex code"
             pattern="^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
             title="Valid hex color code (e.g., #FF0000)"
-            className="w-full font-mono"
+            className="w-full border-gray-800 bg-black font-mono text-white focus:border-gray-600"
             aria-label="Hex code"
           />
           <div className="flex gap-2">
-            <Button type="submit" size="sm">
+            <Button type="submit" size="sm" className="bg-white text-black hover:bg-gray-200">
               Save
             </Button>
             <Button
               type="button"
               variant="outline"
               size="sm"
+              className="border-gray-700 text-white hover:bg-gray-900 hover:text-white"
               onClick={() => {
                 setColorName(name);
                 setHexValue(hex);
@@ -65,15 +66,15 @@ export function ColorSwatch({ name, hex, onDelete, onUpdate }: ColorSwatchProps)
         </form>
       ) : (
         <div onClick={() => setIsEditing(true)} className="cursor-pointer">
-          <p className="font-medium text-gray-900">{name}</p>
-          <p className="font-mono text-sm text-gray-500">{hex}</p>
+          <p className="font-medium text-white">{name}</p>
+          <p className="font-mono text-sm text-gray-400">{hex}</p>
         </div>
       )}
 
       <Button
         variant="ghost"
         size="icon"
-        className="absolute right-2 top-2 opacity-0 group-hover:opacity-100"
+        className="absolute right-2 top-2 text-gray-400 opacity-0 hover:text-white group-hover:opacity-100"
         onClick={onDelete}
       >
         <Trash2Icon className="h-4 w-4" />

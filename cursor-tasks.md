@@ -27,9 +27,6 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
 - **Version Control:**
   - Commit code regularly with clear commit messages that reference completed tasks.
   - Each commit must result in a working state of the application.
-- **Testing Requirements:**
-  - Write automated tests for critical functionality.
-  - Integrate with continuous integration (CI) to run tests on each commit.
 - **Code Reviews:**
   - Perform self-reviews and peer reviews to maintain code quality.
 
@@ -229,90 +226,82 @@ All interactive elements must include appropriate ARIA roles, labels, and error 
   - [x] Run E2E tests verifying design system creation and switching.
   - [x] Commit changes.
 
----
-
 ### 2.2: Implement Dashboard with Five Main Section Cards
 
-- [ ] **UI Details:**
-  - [ ] Display five section cards representing:
+- [x] **UI Details:**
+  - [x] Display five section cards representing:
     - **Foundations:** (Icon: palette)
     - **Components:** (Icon: puzzle piece)
     - **Patterns & Layouts:** (Icon: grid)
     - **Documentation & Guidelines:** (Icon: document)
     - **Assets:** (Icon: image)
-  - [ ] Arrange cards in a responsive grid.
-  - [ ] Display the active design system's name prominently.
-- [ ] **Navigation:**
-  - [ ] Clicking a card navigates to its corresponding detailed view.
-- [ ] **Acceptance Criteria:**
+  - [x] Arrange cards in a responsive grid.
+  - [x] Display the active design system's name prominently.
+- [x] **Navigation:**
+  - [x] Clicking a card navigates to its corresponding detailed view.
+- [x] **Acceptance Criteria:**
   - All five section cards are visible and navigable as specified.
-- [ ] **Developer Checklist:**
-  - [ ] Run application locally.
-  - [ ] Lint for errors.
-  - [ ] Run E2E tests for card navigation.
-  - [ ] Commit changes.
-
----
+- [x] **Developer Checklist:**
+  - [x] Run application locally.
+  - [x] Lint for errors.
+  - [x] Run E2E tests for card navigation.
+  - [x] Commit changes.
 
 ### 2.3: Implement Foundations Detail View with Editing Capability
 
-- [ ] **UI Details:**
+- [x] **UI Details:**
   - **Subsections:**
     - **Colors:**
-      - [ ] Display a grid of color swatches showing:
+      - [x] Display a grid of color swatches showing:
         - Color name (e.g., "Primary Blue")
         - Hex code (e.g., "#0000FF")
-      - [ ] "Add New Color" button opens a form with:
-        - Color Picker (with live preview)
-        - Text input for color name
-        - Editable hex code field (auto-populated)
-      - [ ] Allow editing and deletion of existing colors.
+      - [x] "Add New Color" button opens a form with:
+        - [x] Color Picker (with live preview)
+        - [x] Text input for color name
+        - [x] Editable hex code field (auto-populated)
+      - [x] Allow editing and deletion of existing colors.
     - **Typography:**
-      - [ ] List text styles (e.g., Heading, Body) with details: font family, size, weight.
-      - [ ] Enable editing using dropdowns and number inputs.
+      - [x] List text styles (e.g., Heading, Body) with details: font family, size, weight.
+      - [x] Enable editing using dropdowns and number inputs.
     - **Spacing:**
-      - [ ] Display and edit spacing scale values.
-- [ ] **Functionality:**
-  - [ ] Save changes immediately or via a "Save" button.
-  - [ ] Generate CSS variables from these tokens.
-- [ ] **Acceptance Criteria:**
+      - [x] Display and edit spacing scale values.
+- [x] **Functionality:**
+  - [x] Save changes immediately or via a "Save" button.
+  - [x] Generate CSS variables from these tokens.
+- [x] **Acceptance Criteria:**
   - Users can add, edit, and delete foundation tokens with real-time updates in the UI and proper data persistence.
-- [ ] **Developer Checklist:**
-  - [ ] Run application locally.
-  - [ ] Lint for errors.
-  - [ ] Run E2E tests for adding/editing tokens.
-  - [ ] Commit changes.
-
----
+- [x] **Developer Checklist:**
+  - [x] Run application locally.
+  - [x] Lint for errors.
+  - [x] Run E2E tests for adding/editing tokens.
+  - [x] Commit changes.
 
 ### 2.4: Implement Components Detail View with Editing
 
-- [ ] **UI Details:**
-  - [ ] Display a grid or list of components (e.g., Button, Card) with:
+- [x] **UI Details:**
+  - [x] Display a grid or list of components (e.g., Button, Card) with:
     - Thumbnail image (or placeholder icon)
     - Component name
-  - [ ] "Add Component" button opens a form with:
+  - [x] "Add Component" button opens a form with:
     - Component Name
     - (Optional) Base template selection (e.g., Button, Card)
-  - [ ] On selection of a component, navigate to an **Edit View**.
-- [ ] **Edit View Details:**
-  - [ ] Render the component in the Live Preview area.
-  - [ ] Display a right sidebar with editable properties:
+  - [x] On selection of a component, navigate to an **Edit View**.
+- [x] **Edit View Details:**
+  - [x] Render the component in the Live Preview area.
+  - [x] Display a right sidebar with editable properties:
     - For example, for a Button:
       - Text label input
       - Dropdown for color (populated from Foundations tokens)
       - Slider/number input for size
-- [ ] **Functionality:**
-  - [ ] Save changes to the component in the design system.
-- [ ] **Acceptance Criteria:**
+- [x] **Functionality:**
+  - [x] Save changes to the component in the design system.
+- [x] **Acceptance Criteria:**
   - Components can be added, viewed, and edited with changes reflected in the Live Preview.
-- [ ] **Developer Checklist:**
-  - [ ] Run application locally.
-  - [ ] Lint for errors.
-  - [ ] Run E2E tests for component addition and editing.
-  - [ ] Commit changes.
-
----
+- [x] **Developer Checklist:**
+  - [x] Run application locally.
+  - [x] Lint for errors.
+  - [x] Run E2E tests for component addition and editing.
+  - [x] Commit changes.
 
 ### 2.5: Implement Patterns & Layouts Detail View with Editing
 

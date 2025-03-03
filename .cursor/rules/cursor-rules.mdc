@@ -1,0 +1,178 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Toka UI Cursor Rules
+
+## Core Technologies & Versions
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
+- Supabase
+- Prettier with tailwind-prettier-plugin
+
+## Global Styling Rules
+
+### Colors
+```css
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --muted: #333333;
+  --muted-foreground: #999999;
+  --border: #333333;
+  --input: #333333;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  --destructive: #ff0000;
+  --destructive-foreground: #ffffff;
+}
+```
+
+### Typography
+- Primary Font: Inter
+- Secondary Fonts: Helvetica, Arial
+- Base Font Size: 16px
+- Line Heights: 1.5 for body, 1.2 for headings
+
+### Layout
+- Max Content Width: 1200px
+- Grid Gap: 1.5rem (24px)
+- Section Padding: 2rem (32px)
+- Border Radius: 4px
+
+## Component Rules
+
+### Buttons
+```typescript
+interface ButtonProps {
+  variant: 'default' | 'outline' | 'ghost' | 'destructive';
+  size: 'sm' | 'default' | 'lg';
+}
+```
+- Default: White text on black background
+- Outline: White border, transparent background
+- Ghost: No border, transparent background
+- Hover: Invert colors
+
+### Forms
+- Input Background: var(--input)
+- Input Border: 1px solid var(--border)
+- Focus Ring: 2px white
+- Error States: Use destructive color
+
+### Cards
+- Background: var(--background)
+- Border: 1px solid var(--border)
+- Hover: Subtle scale transform (1.02)
+- Shadow: none (flat design)
+
+## Layout Components
+
+### Navigation
+- Minimal header with logo
+- Right-aligned auth buttons
+- Active state: White underline
+
+### Dashboard Grid
+- Responsive grid: 1 column mobile, 2 columns tablet, 3 columns desktop
+- Gap: 1.5rem
+- Card aspect ratio: 16:9
+
+### Sidebar
+- Width: 320px
+- Background: var(--background)
+- Border-right: 1px solid var(--border)
+
+## Page Structure
+
+### Authentication Pages
+- Center-aligned content
+- Max width: 400px
+- Split view for benefits panel (left) and form (right)
+
+### Dashboard
+- Sidebar + Main content layout
+- Toolbar at top of main content
+- Content area with responsive padding
+
+### Editor Views
+- Preview canvas with dotted grid (gray dots)
+- Right sidebar for controls (320px)
+- Bottom panel for code view (40% height)
+
+## Responsive Breakpoints
+```typescript
+const breakpoints = {
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+  '2xl': '1536px'
+};
+```
+
+## Animation Rules
+- Transitions: 200ms ease-in-out
+- Hover effects: 150ms
+- Page transitions: 300ms fade
+
+## Code Style
+
+### File Naming
+- Components: kebab-case.tsx
+- Utils: kebab-case.ts
+- Pages: page.tsx (Next.js app directory)
+
+### Component Structure
+```typescript
+// components/example-component.tsx
+export interface ExampleComponentProps {
+  // Props interface
+}
+
+export function ExampleComponent({ ...props }: ExampleComponentProps) {
+  // Component logic
+}
+```
+
+### CSS Classes
+- Use Tailwind utility classes
+- Custom classes only for complex animations
+- Maintain consistent class order (layout → typography → colors → states)
+
+## Error Handling
+- Display error states inline for forms
+- Use toast notifications for system errors
+- Implement error boundaries for component failures
+
+## Loading States
+- Use minimal loading spinners (white on black)
+- Implement skeleton loaders for content
+- Add loading indicators for all async actions
+
+## Accessibility
+- Maintain WCAG 2.1 AA compliance
+- Use semantic HTML elements
+- Implement proper ARIA labels
+- Ensure keyboard navigation
+- Maintain color contrast ratios
+
+## Performance Guidelines
+- Use React Server Components by default
+- Implement code splitting for large components
+- Optimize images with next/image
+- Cache Supabase queries where appropriate
+
+## Testing Requirements
+- Unit tests for utility functions
+- Component tests for interactive elements
+- E2E tests for critical user flows
+- Accessibility tests using axe-core
+
+## Version Control
+- Feature branches: feature/feature-name
+- Fix branches: fix/issue-description
+- Commit messages: conventional commits format
