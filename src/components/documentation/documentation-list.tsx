@@ -13,8 +13,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 
 interface DocumentPage {
   id: string;
@@ -55,38 +53,9 @@ const initialDocPages: DocumentPage[] = [
 export function DocumentationList({ designSystemId }: DocumentationListProps) {
   const router = useRouter();
   const [docPages, setDocPages] = useState<DocumentPage[]>(initialDocPages);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [newDocTitle, setNewDocTitle] = useState('');
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-
-  const handleCreateDoc = async () => {
-    if (!newDocTitle.trim()) return;
-
-    setLoading(true);
-    try {
-      // In a real app, this would be an API call
-      const newDocId = newDocTitle.toLowerCase().replace(/\s+/g, '-');
-      const newDoc: DocumentPage = {
-        id: newDocId,
-        title: newDocTitle,
-        content: `# ${newDocTitle}\n\nStart writing your documentation here...`,
-        lastUpdated: new Date().toISOString().split('T')[0],
-      };
-
-      setDocPages((prev) => [...prev, newDoc]);
-      setIsAddDialogOpen(false);
-      setNewDocTitle('');
-
-      // Navigate to the new doc
-      router.push(`/dashboard/${designSystemId}/documentation/${newDocId}`);
-    } catch (error) {
-      console.error('Error creating documentation page:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleDeleteDoc = async () => {
     if (!selectedDocId) return;
@@ -121,7 +90,7 @@ export function DocumentationList({ designSystemId }: DocumentationListProps) {
         <h2 className="text-xl font-medium text-white">Documentation Pages</h2>
         <Button
           className="bg-white text-black hover:bg-gray-200"
-          onClick={() => setIsAddDialogOpen(true)}
+          onClick={() => router.push(`/dashboard/${designSystemId}/documentation/create`)}
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Document
@@ -179,49 +148,6 @@ export function DocumentationList({ designSystemId }: DocumentationListProps) {
           </Card>
         ))}
       </div>
-
-      {/* Add Document Dialog */}
-      <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
-        <DialogContent className="border-gray-800 bg-gray-900 text-white">
-          <DialogHeader>
-            <DialogTitle>Create New Document</DialogTitle>
-            <DialogDescription className="text-gray-400">
-              Add a new documentation page to your design system.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label htmlFor="title" className="text-gray-300">
-                Document Title
-              </Label>
-              <Input
-                id="title"
-                value={newDocTitle}
-                onChange={(e) => setNewDocTitle(e.target.value)}
-                placeholder="e.g., Typography Guidelines"
-                className="border-gray-700 bg-gray-800 text-white"
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsAddDialogOpen(false)}
-              disabled={loading}
-              className="border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={handleCreateDoc}
-              disabled={loading || !newDocTitle.trim()}
-              className="bg-white text-black hover:bg-gray-200"
-            >
-              {loading ? 'Creating...' : 'Create Document'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
